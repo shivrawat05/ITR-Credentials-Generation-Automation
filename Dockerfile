@@ -18,7 +18,6 @@ RUN pnpm --filter @itr/shared build
 # Build other packages
 RUN pnpm --filter @itr/service build
 RUN pnpm --filter @itr/automation build
-RUN pnpm --filter @itr/ui build
 
 # Make the start script executable
 RUN chmod +x start.sh
