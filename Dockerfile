@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/playwright:v1.45.1-jammy
 WORKDIR /app
 
 # Install pnpm
-RUN npm install -g pnpm
+RUN npm install -g pnpm@9.5.0
 
 # Copy repository files
 COPY . .
