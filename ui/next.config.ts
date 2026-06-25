@@ -5,7 +5,15 @@ import { resolve } from "node:path";
 loadEnvConfig(resolve(process.cwd(), ".."));
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@itr/shared"]
+  transpilePackages: ["@itr/shared"],
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "http://127.0.0.1:4000/:path*"
+      }
+    ];
+  }
 };
 
 export default nextConfig;
