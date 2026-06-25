@@ -1,0 +1,11 @@
+node_modules
+.pnpm-store
+.next
+dist
+coverage
+.env
+.env.local
+playwright-report
+test-results
+*.log
+RegisterKaro_ITR_Credentials_Assignment.pdf

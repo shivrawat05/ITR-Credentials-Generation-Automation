@@ -1,0 +1,8 @@
+packages:
+  - automation
+  - service
+  - ui
+  - packages/*
+allowBuilds:
+  esbuild: true
+  sharp: true

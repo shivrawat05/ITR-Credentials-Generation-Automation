@@ -1,0 +1,28 @@
+{
+  "name": "registerkaro-itr-credentials-automation",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev:service": "pnpm --filter @itr/service dev",
+    "dev:automation": "pnpm --filter @itr/automation dev",
+    "dev:ui": "pnpm --filter @itr/ui dev",
+    "test": "pnpm --filter @itr/shared test && pnpm --filter @itr/service test"
+  },
+  "workspaces": [
+    "automation",
+    "service",
+    "ui",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "tsx": "^4.16.2"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
+  },
+  "packageManager": "pnpm@9.5.0"
+}
