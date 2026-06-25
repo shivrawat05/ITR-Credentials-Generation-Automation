@@ -1,13 +1,32 @@
 "use client";
 
-import { ArrowLeft, BellRinging, Pause, Play, Prohibit } from "@phosphor-icons/react";
+import {
+  ArrowLeft,
+  BellRinging,
+  Pause,
+  Play,
+  Prohibit,
+} from "@phosphor-icons/react";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { AutomationEvent, JobSummary } from "@itr/shared";
-import { cancelJob, getEvents, getJob, streamEvents, submitOtp } from "../lib/api";
+import {
+  cancelJob,
+  getEvents,
+  getJob,
+  streamEvents,
+  submitOtp,
+} from "../lib/api";
 import { formatTime, PhasePill } from "./Format";
 
-const phases = ["identity", "captcha", "otp_waiting", "otp_submitted", "password", "confirmation"];
+const phases = [
+  "identity",
+  "captcha",
+  "otp_waiting",
+  "otp_submitted",
+  "password",
+  "confirmation",
+];
 
 export function RunConsole({ jobId }: { jobId: string }) {
   const [job, setJob] = useState<JobSummary | null>(null);
@@ -16,11 +35,18 @@ export function RunConsole({ jobId }: { jobId: string }) {
   const [otp, setOtp] = useState("");
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
-  const lastSeq = useMemo(() => events.reduce((max, event) => Math.max(max, event.seq ?? 0), 0), [events]);
+  const lastSeq = useMemo(
+    () => events.reduce((max, event) => Math.max(max, event.seq ?? 0), 0),
+    [events],
+  );
 
   useEffect(() => {
-    getJob(jobId).then((result) => setJob(result.job)).catch(() => undefined);
-    getEvents(jobId).then((result) => setEvents(result.events)).catch(() => undefined);
+    getJob(jobId)
+      .then((result) => setJob(result.job))
+      .catch(() => undefined);
+    getEvents(jobId)
+      .then((result) => setEvents(result.events))
+      .catch(() => undefined);
   }, [jobId]);
 
   useEffect(() => {
@@ -29,10 +55,18 @@ export function RunConsole({ jobId }: { jobId: string }) {
       jobId,
       lastSeq,
       (event) => {
-        setEvents((existing) => (existing.some((item) => item.seq === event.seq) ? existing : [...existing, event]));
-        setJob((existing) => (existing ? { ...existing, phase: event.phase, updatedAt: event.timestamp } : existing));
+        setEvents((existing) =>
+          existing.some((item) => item.seq === event.seq)
+            ? existing
+            : [...existing, event],
+        );
+        setJob((existing) =>
+          existing
+            ? { ...existing, phase: event.phase, updatedAt: event.timestamp }
+            : existing,
+        );
       },
-      controller.signal
+      controller.signal,
     ).catch(() => undefined);
     return () => controller.abort();
   }, [jobId]);
@@ -60,12 +94,18 @@ export function RunConsole({ jobId }: { jobId: string }) {
           </Link>
           <div className="brand">
             <strong>Run {jobId.slice(-8)}</strong>
-            <span>{job ? `${job.panMasked} · ${job.requestId}` : "Loading run"}</span>
+            <span>
+              {job ? `${job.panMasked} · ${job.requestId}` : "Loading run"}
+            </span>
           </div>
         </div>
         <div className="toolbar">
           {job ? <PhasePill phase={job.phase} /> : null}
-          <button className="button secondary" onClick={() => setPaused((value) => !value)} title={paused ? "Resume auto-scroll" : "Pause auto-scroll"}>
+          <button
+            className="button secondary"
+            onClick={() => setPaused((value) => !value)}
+            title={paused ? "Resume auto-scroll" : "Pause auto-scroll"}
+          >
             {paused ? <Play size={18} /> : <Pause size={18} />}
           </button>
           <button className="button danger" onClick={cancel} title="Cancel run">
@@ -78,7 +118,12 @@ export function RunConsole({ jobId }: { jobId: string }) {
           <div className="console-head">
             <div className="otp-row">
               <BellRinging size={20} />
-              <input value={otp} onChange={(event) => setOtp(event.target.value)} placeholder="OTP" inputMode="numeric" />
+              <input
+                value={otp}
+                onChange={(event) => setOtp(event.target.value)}
+                placeholder="OTP"
+                inputMode="numeric"
+              />
               <button className="button" onClick={sendOtp}>
                 Submit OTP
               </button>
@@ -86,12 +131,19 @@ export function RunConsole({ jobId }: { jobId: string }) {
           </div>
           <div className="stepper">
             {phases.map((phase) => (
-              <div key={phase} className={`step ${events.some((event) => event.phase === phase) ? "active" : ""}`} title={phase} />
+              <div
+                key={phase}
+                className={`step ${events.some((event) => event.phase === phase) ? "active" : ""}`}
+                title={phase}
+              />
             ))}
           </div>
           <div className="console">
             {events.map((event) => (
-              <div key={`${event.jobId}-${event.seq}`} className={`log-line level-${event.level}`}>
+              <div
+                key={`${event.jobId}-${event.seq}`}
+                className={`log-line level-${event.level}`}
+              >
                 <span>{formatTime(event.timestamp)}</span>
                 <span>{event.phase}</span>
                 <span>

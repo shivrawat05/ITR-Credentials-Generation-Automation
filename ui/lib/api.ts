@@ -11,6 +11,7 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
     ...init,
     headers: {
       "content-type": "application/json",
+
       authorization: `Bearer ${token}`,
       ...(init.headers ?? {}),
     },

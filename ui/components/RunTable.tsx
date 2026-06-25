@@ -23,7 +23,10 @@ export function RunTable() {
   }, [phase, outcome]);
 
   useEffect(() => {
-    const load = () => listJobs(query).then((result) => setJobs(result.jobs)).catch(() => undefined);
+    const load = () =>
+      listJobs(query)
+        .then((result) => setJobs(result.jobs))
+        .catch(() => undefined);
     load();
     const timer = setInterval(load, 3000);
     return () => clearInterval(timer);
@@ -43,9 +46,18 @@ export function RunTable() {
     <section className="panel">
       <div className="run-form">
         <div className="toolbar">
-          <input value={pan} onChange={(event) => setPan(event.target.value.toUpperCase())} placeholder="PAN" maxLength={10} />
+          <input
+            value={pan}
+            onChange={(event) => setPan(event.target.value.toUpperCase())}
+            placeholder="PAN"
+            maxLength={10}
+          />
           <label className="toolbar muted">
-            <input type="checkbox" checked={runHeaded} onChange={(event) => setRunHeaded(event.target.checked)} />
+            <input
+              type="checkbox"
+              checked={runHeaded}
+              onChange={(event) => setRunHeaded(event.target.checked)}
+            />
             Headed
           </label>
           <button className="button" onClick={submit} title="Start run">
@@ -53,15 +65,31 @@ export function RunTable() {
           </button>
         </div>
         <div className="filters">
-          <select value={phase} onChange={(event) => setPhase(event.target.value)}>
+          <select
+            value={phase}
+            onChange={(event) => setPhase(event.target.value)}
+          >
             <option value="">All phases</option>
-            {["queued", "launching", "identity", "captcha", "otp_waiting", "password", "succeeded", "failed", "cancelled"].map((item) => (
+            {[
+              "queued",
+              "launching",
+              "identity",
+              "captcha",
+              "otp_waiting",
+              "password",
+              "succeeded",
+              "failed",
+              "cancelled",
+            ].map((item) => (
               <option key={item} value={item}>
                 {item}
               </option>
             ))}
           </select>
-          <select value={outcome} onChange={(event) => setOutcome(event.target.value)}>
+          <select
+            value={outcome}
+            onChange={(event) => setOutcome(event.target.value)}
+          >
             <option value="">All outcomes</option>
             {["running", "success", "failure", "cancelled"].map((item) => (
               <option key={item} value={item}>
@@ -100,7 +128,11 @@ export function RunTable() {
               <td>{formatTime(job.updatedAt)}</td>
               <td>{formatDuration(job.durationMs)}</td>
               <td>
-                <Link className="button secondary" href={`/runs/${job.id}`} title="Open run">
+                <Link
+                  className="button secondary"
+                  href={`/runs/${job.id}`}
+                  title="Open run"
+                >
                   <ArrowSquareOut size={18} />
                 </Link>
               </td>

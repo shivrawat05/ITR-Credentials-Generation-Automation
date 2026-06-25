@@ -13,6 +13,7 @@ export async function connectMongo(): Promise<MongoContext> {
   await client.connect();
 
   const db = client.db();
+
   await db
     .collection("jobs")
     .createIndexes([

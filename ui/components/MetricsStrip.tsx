@@ -10,13 +10,22 @@ export function MetricsStrip() {
   const [metrics, setMetrics] = useState<Metrics | null>(null);
 
   useEffect(() => {
-    const load = () => getMetrics().then(setMetrics).catch(() => undefined);
+    const load = () =>
+      getMetrics()
+        .then(setMetrics)
+        .catch(() => undefined);
     load();
     const timer = setInterval(load, 5000);
     return () => clearInterval(timer);
   }, []);
 
-  const data = metrics ?? { totalRuns: 0, successRate: 0, failures: 0, p50DurationMs: 0, p99DurationMs: 0 };
+  const data = metrics ?? {
+    totalRuns: 0,
+    successRate: 0,
+    failures: 0,
+    p50DurationMs: 0,
+    p99DurationMs: 0,
+  };
 
   return (
     <section className="metrics">
