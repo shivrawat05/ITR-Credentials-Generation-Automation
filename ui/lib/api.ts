@@ -1,6 +1,6 @@
 import type { AutomationEvent, JobSummary } from "@itr/shared";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+const baseUrl = (process.env.NEXT_PUBLIC_API_BASE_URL || "/api").replace(/\/+$/, "");
 const token = process.env.NEXT_PUBLIC_API_TOKEN ?? "";
 
 console.log("NEXT_PUBLIC_API_TOKEN =", process.env.NEXT_PUBLIC_API_TOKEN);
